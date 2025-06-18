@@ -1,7 +1,7 @@
 'use client';
 
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
-import { FileText, Target, BarChart3, Zap, Shield, Clock } from 'lucide-react';
+import { FileText, Target, BarChart3, Zap, Shield, Clock, Linkedin } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export function FeaturesSection() {
@@ -17,6 +17,12 @@ export function FeaturesSection() {
       title: 'Smart Job Matching',
       description: 'Vores AI analyserer dine skills og finder de mest relevante job opportunities med præcise match-procenter.',
       color: 'text-green-600 bg-green-50'
+    },
+    {
+      icon: Linkedin,
+      title: 'LinkedIn Optimering',
+      description: 'Optimer din LinkedIn profil med AI for bedre synlighed og flere professionelle forbindelser i Danmark.',
+      color: 'text-blue-600 bg-blue-50'
     },
     {
       icon: BarChart3,
@@ -35,12 +41,6 @@ export function FeaturesSection() {
       title: 'GDPR Sikkerhed',
       description: 'Dine data er fuldt beskyttet under danske og europæiske privatlissslovgivning.',
       color: 'text-red-600 bg-red-50'
-    },
-    {
-      icon: Clock,
-      title: '24/7 Support',
-      description: 'Få hjælp når du har brug for det med vores dedikerede danske support team.',
-      color: 'text-indigo-600 bg-indigo-50'
     }
   ];
 
