@@ -2,6 +2,7 @@
 
 import { Star, Quote } from 'lucide-react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 
 export function SocialProof() {
   const testimonials = [
@@ -44,7 +45,7 @@ export function SocialProof() {
     <section className="py-20 bg-gray-50">
       <div className="container mx-auto px-4">
         {/* Social Proof Stats */}
-        <motion.div 
+        <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -59,7 +60,7 @@ export function SocialProof() {
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-16">
-            <motion.div 
+            <motion.div
               className="text-center"
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
@@ -69,7 +70,7 @@ export function SocialProof() {
               <div className="text-4xl font-bold text-blue-600 mb-2">1,200+</div>
               <div className="text-gray-600">Succesfulde ansættelser</div>
             </motion.div>
-            <motion.div 
+            <motion.div
               className="text-center"
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
@@ -79,7 +80,7 @@ export function SocialProof() {
               <div className="text-4xl font-bold text-green-600 mb-2">94%</div>
               <div className="text-gray-600">Forbedret CV score</div>
             </motion.div>
-            <motion.div 
+            <motion.div
               className="text-center"
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
@@ -89,7 +90,7 @@ export function SocialProof() {
               <div className="text-4xl font-bold text-orange-600 mb-2">3x</div>
               <div className="text-gray-600">Flere jobsamtaler</div>
             </motion.div>
-            <motion.div 
+            <motion.div
               className="text-center"
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
@@ -118,18 +119,20 @@ export function SocialProof() {
                   <Star key={i} className="h-4 w-4 fill-current text-yellow-400" />
                 ))}
               </div>
-              
+
               <Quote className="h-8 w-8 text-blue-600 mb-4 opacity-50" />
-              
+
               <p className="text-gray-700 mb-6 leading-relaxed">
-                "{testimonial.content}"
+                &ldquo;{testimonial.content}&rdquo;
               </p>
-              
+
               <div className="flex items-center">
-                <img 
-                  src={testimonial.avatar} 
+                <Image
+                  src={testimonial.avatar}
                   alt={testimonial.name}
-                  className="w-12 h-12 rounded-full mr-4 object-cover"
+                  width={48}
+                  height={48}
+                  className="rounded-full mr-4 object-cover"
                 />
                 <div>
                   <div className="font-semibold text-gray-900">{testimonial.name}</div>
@@ -143,7 +146,7 @@ export function SocialProof() {
         </div>
 
         {/* Company Logos */}
-        <motion.div 
+        <motion.div
           className="text-center"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}

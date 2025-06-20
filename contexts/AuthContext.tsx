@@ -1,96 +1,123 @@
+// contexts/AuthContext.tsx
 'use client';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { User as SupabaseUser } from '@supabase/supabase-js'; // Import Supabase's User type
+import { supabase } from '@/lib/supabaseClient'; // Ensure this path is correct for your Supabase client instance
 
-interface User {
-  id: string;
-  email: string;
-  name: string;
-  avatar?: string;
-  createdAt: string;
+// Define the shape of your application's user, potentially extending SupabaseUser
+// We'll use SupabaseUser directly for simplicity in this context.
+// If you need custom fields like 'name' or 'avatar', access them via user.user_metadata
+interface AppUser extends SupabaseUser {
+  // You can extend SupabaseUser if you add custom fields directly to the user table
+  // but for common profile data, user_metadata is often preferred.
+  // Example for convenience (though data comes from user_metadata.name):
+  display_name?: string;
+  avatar_url?: string;
 }
 
 interface AuthContextType {
-  user: User | null;
-  isLoading: boolean;
+  user: AppUser | null;
+  isLoading: boolean; // Renamed from 'loading' in previous example, matches your current code
   login: (email: string, password: string) => Promise<void>;
-  register: (name: string, email: string, password: string) => Promise<void>;
-  logout: () => void;
+  register: (email: string, password: string) => Promise<void>; // Removed 'name' as direct arg for Supabase signUp
+  logout: () => Promise<void>; // Logout is async for Supabase
   isAuthenticated: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<AppUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Check for stored auth token and validate
-    const token = localStorage.getItem('auth_token');
-    if (token) {
-      // In a real app, validate token with backend
-      const mockUser: User = {
-        id: '1',
-        email: 'demo@job-hjalpen.dk',
-        name: 'Demo Bruger',
-        avatar: 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&dpr=2',
-        createdAt: new Date().toISOString()
-      };
-      setUser(mockUser);
-    }
-    setIsLoading(false);
+    // Listen for auth state changes from Supabase
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      // Supabase session provides the user object
+      if (session?.user) {
+        // Map SupabaseUser to AppUser if you have extra fields to derive/add
+        const currentUser: AppUser = {
+          ...session.user,
+          // Example: if you store name in user_metadata:
+          display_name: session.user.user_metadata?.name as string | undefined,
+          avatar_url: session.user.user_metadata?.avatar as string | undefined,
+        };
+        setUser(currentUser);
+      } else {
+        setUser(null);
+      }
+      setIsLoading(false);
+    });
+
+    // Cleanup subscription on unmount
+    return () => {
+      subscription.unsubscribe();
+    };
   }, []);
 
   const login = async (email: string, password: string) => {
     setIsLoading(true);
     try {
-      // Mock login - in real app, call backend API
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      const mockUser: User = {
-        id: '1',
-        email,
-        name: 'Demo Bruger',
-        avatar: 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&dpr=2',
-        createdAt: new Date().toISOString()
-      };
-      
-      localStorage.setItem('auth_token', 'mock_jwt_token');
-      setUser(mockUser);
-    } catch (error) {
-      throw new Error('Login fejlede');
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) {
+        throw new Error(error.message || 'Login fejlede');
+      }
+      // Session change will be handled by onAuthStateChange listener
+    } catch (error: any) {
+      console.error('Login error:', error);
+      throw error; // Re-throw to allow component to catch and display toast
     } finally {
       setIsLoading(false);
     }
   };
 
-  const register = async (name: string, email: string, password: string) => {
+  // Supabase signUp doesn't directly take a 'name'.
+  // Name (and other profile info) can be added via user_metadata after signup,
+  // or via a separate profile update function.
+  const register = async (email: string, password: string) => {
     setIsLoading(true);
     try {
-      // Mock registration - in real app, call backend API
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      const mockUser: User = {
-        id: '1',
-        email,
-        name,
-        avatar: 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&dpr=2',
-        createdAt: new Date().toISOString()
-      };
-      
-      localStorage.setItem('auth_token', 'mock_jwt_token');
-      setUser(mockUser);
-    } catch (error) {
-      throw new Error('Registrering fejlede');
+      // Supabase signUp returns user, but requires email confirmation by default.
+      // The user object becomes available after email confirmation.
+      const { data, error } = await supabase.auth.signUp({ email, password });
+
+      if (error) {
+        throw new Error(error.message || 'Registrering fejlede');
+      }
+
+      // Optional: Update user metadata immediately after signup if you want to store name
+      // Note: This requires the user to be signed in, which happens instantly but session might not be ready.
+      // Consider doing this in a separate profile setup step after email confirmation for robustness.
+      // if (data.user) {
+      //   await supabase.auth.updateUser({
+      //     data: { name: initialName }, // This 'name' would be passed if needed
+      //   });
+      // }
+
+      // Session change will be handled by onAuthStateChange listener if successful
+    } catch (error: any) {
+      console.error('Registration error:', error);
+      throw error; // Re-throw to allow component to catch and display toast
     } finally {
       setIsLoading(false);
     }
   };
 
-  const logout = () => {
-    localStorage.removeItem('auth_token');
-    setUser(null);
+  const logout = async () => {
+    setIsLoading(true);
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        throw new Error(error.message || 'Logout fejlede');
+      }
+      // Session change to null will be handled by onAuthStateChange listener
+    } catch (error: any) {
+      console.error('Logout error:', error);
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const value = {
@@ -99,7 +126,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     login,
     register,
     logout,
-    isAuthenticated: !!user
+    isAuthenticated: !!user, // Derive isAuthenticated from user state
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

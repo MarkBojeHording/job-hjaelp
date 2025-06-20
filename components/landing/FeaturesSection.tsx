@@ -3,13 +3,14 @@
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { FileText, Target, BarChart3, Zap, Shield, Clock, Linkedin } from 'lucide-react';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 
 export function FeaturesSection() {
   const features = [
     {
       icon: FileText,
-      title: 'AI CV Builder',
-      description: 'Byg et professionelt CV på minutter med AI-drevne forslag og optimering baseret på danske rekrutteringsstandards.',
+      title: 'CV & ansøgningsassistent med kunstig intelligens',
+      description: 'Opret, opdater og forbedr dit CV og ansøgninger på minutter med kunstig intelligens. Få skræddersyede forslag og automatisk optimering baseret på danske rekrutteringsstandards og specifikke jobopslag.',
       color: 'text-blue-600 bg-blue-50'
     },
     {
@@ -47,7 +48,7 @@ export function FeaturesSection() {
   return (
     <section id="features" className="py-20 bg-white">
       <div className="container mx-auto px-4">
-        <motion.div 
+        <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -58,7 +59,7 @@ export function FeaturesSection() {
             Alt du behøver for at lande dit næste job
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Vores platform kombinerer kunstig intelligens med dyb forståelse af det danske arbejdsmarked 
+            Vores platform kombinerer kunstig intelligens med dyb forståelse af det danske arbejdsmarked
             for at give dig de bedste chancer for succes.
           </p>
         </motion.div>
@@ -72,25 +73,27 @@ export function FeaturesSection() {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
             >
-              <Card className="h-full hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 shadow-md">
-                <CardHeader className="pb-4">
-                  <div className={`w-12 h-12 rounded-lg ${feature.color} flex items-center justify-center mb-4`}>
-                    <feature.icon className="h-6 w-6" />
-                  </div>
-                  <CardTitle className="text-xl text-gray-900">{feature.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription className="text-gray-600 leading-relaxed">
-                    {feature.description}
-                  </CardDescription>
-                </CardContent>
-              </Card>
+              <Link href={`/features/${index}`} className="block h-full">
+                <Card className="h-full hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-0 shadow-md">
+                  <CardHeader className="pb-4">
+                    <div className={`w-12 h-12 rounded-lg ${feature.color} flex items-center justify-center mb-4`}>
+                      <feature.icon className="h-6 w-6" />
+                    </div>
+                    <CardTitle className="text-xl text-gray-900">{feature.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <CardDescription className="text-gray-600 leading-relaxed">
+                      {feature.description}
+                    </CardDescription>
+                  </CardContent>
+                </Card>
+              </Link>
             </motion.div>
           ))}
         </div>
 
         {/* Feature Highlight */}
-        <motion.div 
+        <motion.div
           className="mt-20 bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl p-8 lg:p-12 text-white"
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
@@ -103,7 +106,7 @@ export function FeaturesSection() {
                 Designet specifikt til det danske arbejdsmarked
               </h3>
               <p className="text-blue-100 text-lg leading-relaxed mb-6">
-                Vi forstår danske virksomheder, rekrutteringsprocesser og forventninger. 
+                Vi forstår danske virksomheder, rekrutteringsprocesser og forventninger.
                 Vores AI er trænet på tusindvis af succesfulde danske jobansøgninger.
               </p>
               <div className="grid grid-cols-2 gap-4">
@@ -120,7 +123,7 @@ export function FeaturesSection() {
             <div className="lg:text-right">
               <div className="inline-flex flex-wrap gap-2">
                 {['Copenhagen', 'Aarhus', 'Odense', 'Aalborg'].map((city) => (
-                  <span 
+                  <span
                     key={city}
                     className="px-3 py-1 bg-white/10 rounded-full text-sm backdrop-blur-sm"
                   >

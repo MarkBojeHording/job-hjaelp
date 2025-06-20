@@ -47,29 +47,29 @@ export function Footer() {
               Danmarks første AI-drevne jobplatform. Find dit drømmejob med intelligente værktøjer og personlig vejledning.
             </p>
             <div className="flex space-x-3">
-              <Link 
-                href="https://facebook.com" 
+              <Link
+                href="https://facebook.com"
                 className="text-gray-400 hover:text-white transition-colors"
                 aria-label="Facebook"
               >
                 <Facebook className="h-5 w-5" />
               </Link>
-              <Link 
-                href="https://twitter.com" 
+              <Link
+                href="https://twitter.com"
                 className="text-gray-400 hover:text-white transition-colors"
                 aria-label="Twitter"
               >
                 <Twitter className="h-5 w-5" />
               </Link>
-              <Link 
-                href="https://linkedin.com" 
+              <Link
+                href="https://linkedin.com"
                 className="text-gray-400 hover:text-white transition-colors"
                 aria-label="LinkedIn"
               >
                 <Linkedin className="h-5 w-5" />
               </Link>
-              <Link 
-                href="https://instagram.com" 
+              <Link
+                href="https://instagram.com"
                 className="text-gray-400 hover:text-white transition-colors"
                 aria-label="Instagram"
               >
@@ -85,7 +85,7 @@ export function Footer() {
               <ul className="space-y-2">
                 {footerLinks.platform.map((link) => (
                   <li key={link.name}>
-                    <Link 
+                    <Link
                       href={link.href}
                       className="text-gray-300 hover:text-white transition-colors text-sm"
                     >
@@ -101,7 +101,7 @@ export function Footer() {
               <ul className="space-y-2">
                 {footerLinks.company.map((link) => (
                   <li key={link.name}>
-                    <Link 
+                    <Link
                       href={link.href}
                       className="text-gray-300 hover:text-white transition-colors text-sm"
                     >
@@ -117,7 +117,7 @@ export function Footer() {
               <ul className="space-y-2">
                 {footerLinks.legal.map((link) => (
                   <li key={link.name}>
-                    <Link 
+                    <Link
                       href={link.href}
                       className="text-gray-300 hover:text-white transition-colors text-sm"
                     >
@@ -133,7 +133,7 @@ export function Footer() {
               <ul className="space-y-2">
                 {footerLinks.support.map((link) => (
                   <li key={link.name}>
-                    <Link 
+                    <Link
                       href={link.href}
                       className="text-gray-300 hover:text-white transition-colors text-sm"
                     >
@@ -151,9 +151,6 @@ export function Footer() {
           <p className="text-gray-400 text-sm">
             © {currentYear} Job-Hjælpen.dk. Alle rettigheder forbeholdes.
           </p>
-          <div className="flex items-center space-x-4 mt-4 md:mt-0">
-            <span className="text-gray-400 text-sm">Lavet med ❤️ i Danmark</span>
-          </div>
         </div>
       </div>
     </footer>

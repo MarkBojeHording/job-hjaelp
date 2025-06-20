@@ -1,3 +1,4 @@
+// app/register/page.tsx
 'use client';
 
 import { useState } from 'react';
@@ -14,7 +15,7 @@ import { Eye, EyeOff, ArrowLeft, Check } from 'lucide-react';
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
-    name: '',
+    name: '', // We'll still collect this, but handle storing it separately
     email: '',
     password: '',
     confirmPassword: ''
@@ -22,7 +23,7 @@ export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { register } = useAuth();
+  const { register } = useAuth(); // The register function from AuthContext
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -42,11 +43,23 @@ export default function RegisterPage() {
     }
 
     try {
-      await register(formData.name, formData.email, formData.password);
-      toast.success('Velkommen til Job-Hjælpen.dk!');
-      router.push('/dashboard');
-    } catch (error) {
-      toast.error('Der opstod en fejl ved registrering');
+      // IMPORTANT CHANGE HERE: Call register with only email and password
+      await register(formData.email, formData.password);
+
+      // If you want to store the name in user_metadata immediately after signup,
+      // you'd typically do it here using supabase.auth.updateUser() IF the user
+      // is immediately signed in (which happens for some auth methods, but usually
+      // not for email/password until email is confirmed).
+      // A more robust approach is to have a separate "Complete Profile" step
+      // after successful email confirmation where the user fills out name, etc.,
+      // and you save it to user_metadata or your 'users' table's profile_info JSONB.
+
+      toast.success('Konto oprettet! Tjek din e-mail for at bekræfte din konto.');
+      // Redirect to login or a "check your email" page after successful registration
+      router.push('/login?message=check-email-for-verification');
+    } catch (error: any) { // Catch and display the error message from AuthContext
+      console.error('Registration failed:', error);
+      toast.error(error.message || 'Der opstod en fejl ved registrering');
     } finally {
       setIsLoading(false);
     }
@@ -96,8 +109,8 @@ export default function RegisterPage() {
         {/* Right Side - Registration Form */}
         <div className="lg:col-span-3">
           {/* Back Button */}
-          <Button 
-            variant="ghost" 
+          <Button
+            variant="ghost"
             className="text-white hover:text-blue-200 mb-8"
             asChild
           >
@@ -209,8 +222,8 @@ export default function RegisterPage() {
                   </Label>
                 </div>
 
-                <Button 
-                  type="submit" 
+                <Button
+                  type="submit"
                   className="w-full h-12 bg-blue-600 hover:bg-blue-700"
                   disabled={isLoading || !acceptTerms}
                 >
@@ -221,8 +234,8 @@ export default function RegisterPage() {
               <div className="mt-8 text-center">
                 <div className="text-sm text-gray-600">
                   Har du allerede en konto?{' '}
-                  <Link 
-                    href="/login" 
+                  <Link
+                    href="/login"
                     className="text-blue-600 hover:text-blue-700 font-medium hover:underline"
                   >
                     Log ind her

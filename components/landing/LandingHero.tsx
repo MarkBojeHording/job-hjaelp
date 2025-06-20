@@ -8,8 +8,8 @@ import { motion } from 'framer-motion';
 
 export function LandingHero() {
   const benefits = [
-    'AI-optimeret CV på 5 minutter',
-    'Smart job matching baseret på dine skills',
+    'AI-optimeret CV og ansøgning på 5 minutter',
+    'Smart job matching baseret på dine erfaringer',
     'Automatisk ansøgningssporing'
   ];
 
@@ -18,11 +18,11 @@ export function LandingHero() {
       <section className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
         {/* Background Pattern */}
         <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Crect%20width%3D%2260%22%20height%3D%2260%22%20fill%3D%22%23ffffff%22%20fill-opacity%3D%220.02%22/%3E%3Cpath%20d%3D%22M30%2030l30-30H30v30z%22%20fill%3D%22%23ffffff%22%20fill-opacity%3D%220.03%22/%3E%3C/svg%3E')] opacity-20"></div>
-        
+
         <div className="relative container mx-auto px-4 py-20 lg:py-28">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Left Column - Content */}
-            <motion.div 
+            <motion.div
               className="text-white space-y-8"
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
@@ -32,7 +32,7 @@ export function LandingHero() {
                 <div className="inline-flex items-center rounded-full bg-blue-500/10 px-4 py-2 text-sm border border-blue-500/20">
                   <span className="text-blue-300">🚀 Ny AI-teknologi tilgængelig</span>
                 </div>
-                
+
                 <h1 className="text-4xl lg:text-6xl font-bold leading-tight">
                   Land dit{' '}
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-orange-400">
@@ -40,9 +40,9 @@ export function LandingHero() {
                   </span>{' '}
                   i Danmark
                 </h1>
-                
+
                 <p className="text-xl text-gray-300 leading-relaxed max-w-2xl">
-                  Få hjælp fra Danmarks mest avancerede AI til at bygge det perfekte CV, 
+                  Få hjælp fra avancerede AI til at bygge det perfekte ansøgning,
                   finde relevante jobs og spore dine ansøgninger. Alt på ét sted.
                 </p>
               </div>
@@ -50,7 +50,7 @@ export function LandingHero() {
               {/* Benefits List */}
               <div className="space-y-3">
                 {benefits.map((benefit, index) => (
-                  <motion.div 
+                  <motion.div
                     key={benefit}
                     className="flex items-center space-x-3"
                     initial={{ opacity: 0, x: -20 }}
@@ -64,15 +64,15 @@ export function LandingHero() {
               </div>
 
               {/* CTA Buttons */}
-              <motion.div 
+              <motion.div
                 className="flex flex-col sm:flex-row gap-4"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.8 }}
               >
-                <Button 
-                  size="lg" 
-                  className="bg-blue-600 hover:bg-blue-700 text-white shadow-xl shadow-blue-600/25 group" 
+                <Button
+                  size="lg"
+                  className="bg-blue-600 hover:bg-blue-700 text-white shadow-xl shadow-blue-600/25 group"
                   asChild
                 >
                   <Link href="/register" className="flex items-center">
@@ -80,11 +80,10 @@ export function LandingHero() {
                     <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </Button>
-                
-                <Button 
-                  size="lg" 
-                  variant="outline" 
-                  className="border-white/20 text-white hover:bg-white/10 backdrop-blur-sm"
+
+                <Button
+                  size="lg"
+                  className="bg-white text-gray-900 hover:bg-gray-100"
                 >
                   <Play className="mr-2 h-4 w-4" />
                   Se hvordan det virker
@@ -92,7 +91,7 @@ export function LandingHero() {
               </motion.div>
 
               {/* Stats */}
-              <motion.div 
+              <motion.div
                 className="flex flex-wrap gap-8 pt-8 border-t border-white/10"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -114,7 +113,7 @@ export function LandingHero() {
             </motion.div>
 
             {/* Right Column - Visual */}
-            <motion.div 
+            <motion.div
               className="lg:pl-8"
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
@@ -147,7 +146,7 @@ export function LandingHero() {
                 </div>
 
                 {/* Floating Elements */}
-                <motion.div 
+                <motion.div
                   className="absolute -top-4 -right-4 bg-green-500 text-white p-3 rounded-full shadow-lg"
                   animate={{ y: [-10, 10, -10] }}
                   transition={{ duration: 3, repeat: Infinity }}
@@ -155,7 +154,7 @@ export function LandingHero() {
                   <CheckCircle className="h-6 w-6" />
                 </motion.div>
 
-                <motion.div 
+                <motion.div
                   className="absolute -bottom-4 -left-4 bg-orange-500 text-white p-3 rounded-lg shadow-lg"
                   animate={{ x: [-5, 5, -5] }}
                   transition={{ duration: 2, repeat: Infinity }}
